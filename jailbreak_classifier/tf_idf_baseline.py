@@ -1,5 +1,8 @@
 import joblib
 from abc import ABC, abstractmethod
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 class ClassifierInterface(ABC):
     """Abstract base class to define the classifier interface."""
