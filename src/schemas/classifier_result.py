@@ -1,4 +1,4 @@
 from pydantic import BaseModel
 
 class ClassifierResult(BaseModel):
-    toxic: bool
+    predicted_class: str

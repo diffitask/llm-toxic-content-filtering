@@ -13,6 +13,7 @@ app = FastAPI(
 
 configure_classifiers(app)
 
+# Set all CORS enabled origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
