@@ -34,8 +34,8 @@ class TfidfLogRegClassifier(ClassifierInterface):
 
 # Example usage
 if __name__ == "__main__":
-    tfidf_path = "ru_tfidf_vectorizer.joblib"
-    logreg_path = "ru_jailbreak_logreg.joblib"
+    tfidf_path = "artifacts/ru_tfidf_vectorizer.joblib"
+    logreg_path = "artifacts/ru_jailbreak_logreg.joblib"
     
     classifier = TfidfLogRegClassifier(tfidf_path, logreg_path)
     
