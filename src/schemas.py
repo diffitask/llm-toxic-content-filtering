@@ -1,7 +1,4 @@
 from pydantic import BaseModel
-import pydantic
-
-print(pydantic.__version__)
 
 class ClassifierInput(BaseModel):
     text: str
