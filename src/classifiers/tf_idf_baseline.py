@@ -1,7 +1,6 @@
 import joblib
-from pydantic import validate_arguments
-from classifiers.classifier_interface import ClassifierInterface
-from schemas import UserPrompt, ClassifierResult
+from src.classifiers.classifier_interface import ClassifierInterface
+from src.schemas import ClassifierInput, ClassifierOutput
 
 class TfidfLogRegClassifier(ClassifierInterface):
     """Classifier implementation using TF-IDF vectorizer and Logistic Regression."""
@@ -14,20 +13,19 @@ class TfidfLogRegClassifier(ClassifierInterface):
         self.tfidf_vectorizer = joblib.load(tfidf_path)
         self.logreg_model = joblib.load(logreg_path)
     
-    @validate_arguments
-    def classify(self, user_prompt: UserPrompt) -> ClassifierResult:
+    def classify(self, input: ClassifierInput) -> ClassifierOutput:
         """
         Classify the input text using the TF-IDF vectorizer and Logistic Regression model.
         """
         # Transform the input text to a TF-IDF vector
-        tfidf_vector = self.tfidf_vectorizer.transform([user_prompt.text])
+        tfidf_vector = self.tfidf_vectorizer.transform([input['text']])
         
         # Predict class using the logistic regression model
         predicted_class = self.logreg_model.predict(tfidf_vector)[0]
         
-        return ClassifierResult(predicted_class=predicted_class)
+        return ClassifierOutput(predicted_class=predicted_class)
     
 def get_tf_idf_baseline_classifier():
-    tfidf_path = "artifacts/ru_tfidf_vectorizer.joblib"
-    logreg_path = "artifacts/ru_jailbreak_logreg.joblib"
+    tfidf_path = "src/artifacts/ru_tfidf_vectorizer.joblib"
+    logreg_path = "src/artifacts/ru_jailbreak_logreg.joblib"
     return TfidfLogRegClassifier(tfidf_path, logreg_path)

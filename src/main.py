@@ -1,8 +1,9 @@
-#!/usr/bin/env python
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from classifiers import configure_classifiers
+from fastapi.responses import RedirectResponse
+from src.classifiers import configure_classifiers
+import uvicorn
 
 load_dotenv()
 
@@ -11,7 +12,9 @@ app = FastAPI(
     version=1.0
 )
 
-configure_classifiers(app)
+@app.get('/')
+async def root():
+    return RedirectResponse('/docs')
 
 # Set all CORS enabled origins
 app.add_middleware(
@@ -23,7 +26,4 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="localhost", port=8000)
+configure_classifiers(app)
