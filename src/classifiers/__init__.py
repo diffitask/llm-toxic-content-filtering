@@ -17,6 +17,6 @@ def alert(input):
 
 def configure_classifiers(app):
     for classifier_name, classifier in available_classifiers.items():
-        classifier_runnable = RunnableLambda(classifier.classify)
-        alert_runnable = RunnableLambda(alert)
+        classifier_runnable = RunnableLambda(classifier.classify, name='classfier_fn')
+        alert_runnable = RunnableLambda(alert, name='alert_fn')
         add_routes(app, classifier_runnable | alert_runnable, path=f"/{classifier_name}")
