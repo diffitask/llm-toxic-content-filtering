@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from fastapi.responses import RedirectResponse
 from src.classifiers import configure_classifiers
+from src.alerts import configure_alerts
 import uvicorn
 
 load_dotenv()
@@ -27,3 +28,4 @@ app.add_middleware(
 )
 
 configure_classifiers(app)
+configure_alerts(app)
