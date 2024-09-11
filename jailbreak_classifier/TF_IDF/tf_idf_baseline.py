@@ -2,15 +2,8 @@ import joblib
 from abc import ABC, abstractmethod
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-
-class ClassifierInterface(ABC):
-    """Abstract base class to define the classifier interface."""
-    
-    @abstractmethod
-    def classify(self, text: str) -> dict:
-        """Takes a text input and returns a dict with predictions."""
-        pass
+from jailbreak_classifier.classifier_interface import ClassifierInterface
+from jailbreak_classifier.schemas import ClassifierInput, ClassifierOutput
 
 class TfidfLogRegClassifier(ClassifierInterface):
     """Classifier implementation using TF-IDF vectorizer and Logistic Regression."""
