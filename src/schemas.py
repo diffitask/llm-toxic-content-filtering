@@ -5,4 +5,5 @@ class ClassifierInput(BaseModel):
 
 class ClassifierOutput(BaseModel):
     """0/1 -- is the prompt/model answer harmful or not"""
-    predicted_class: int
+    # has_jailbreak: str
+    predicted_class: str
