@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Annotated
-from src.schemas import ClassifierInput, ClassifierOutput
+from schemas import ClassifierInput, ClassifierOutput
 
 class ClassifierInterface(ABC):
     """Abstract base class to define the classifier interface."""
