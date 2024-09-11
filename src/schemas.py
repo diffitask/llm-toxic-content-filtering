@@ -4,4 +4,5 @@ class ClassifierInput(BaseModel):
     text: str
 
 class ClassifierOutput(BaseModel):
-    predicted_class: str
+    """0/1 -- is the prompt/model answer harmful or not"""
+    predicted_class: int
