@@ -9,21 +9,24 @@ available_classifiers = {
     'baseline': get_tf_idf_baseline_classifier(),
 }
 
-def alert(input):
-    classifier_output = ClassifierOutput.parse_obj(input)
+
+def alert(classifier_output_obj):
+    classifier_output: ClassifierOutput = ClassifierOutput.parse_obj(classifier_output_obj)
 
     # logging the request
     # TODO: user_prompt_is_harmful = "Yes" if classifier_output.predicted_class else "No"
     user_prompt_is_harmful = "Yes" if (classifier_output.predicted_class == "vanilla_harmful") else "No"
-    logger.warning(f"User prompt: ... Is the prompt harmful: {user_prompt_is_harmful}")
 
-    # if classifier_output.predicted_class == 0:
-    # if classifier_output.has_jailbreak == "vanilla_harmful":
+    # configure logging: saving 1) initial user prompt, 2) filtering model answer
+    logger.warning(f"Initial text: \"{classifier_output.initial_text}\" - "
+                   f"Is the text harmful: \"{user_prompt_is_harmful}\"")
+
+    # TODO: if classifier_output.predicted_class == 0:
     if classifier_output.predicted_class == "vanilla_harmful":
         # TODO: to send a notification to the Telegram here
         print('alert here', flush=True)
 
-    return input
+    return classifier_output_obj
 
 
 def configure_classifiers(app):

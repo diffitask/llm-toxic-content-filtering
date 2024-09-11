@@ -1,6 +1,5 @@
 import logging
 
-# configure logging: saving 1) initial user prompt, 2) filtering model answer
 LOGGING_FORMAT = f'%(name)s:     %(asctime)s - %(message)s'
 
 logging.basicConfig(
