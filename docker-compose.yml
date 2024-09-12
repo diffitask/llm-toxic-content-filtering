@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   app:
+    working_dir: /code
     build:
       context: .
       dockerfile: buildfiles/app.Dockerfile
@@ -10,6 +11,12 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./src:/code/src
-    command: uvicorn src.main:app --host 0.0.0.0 --port 8080
-    restart: always
+      - type: bind
+        source: ./artifacts
+        target: /code/artifacts
+      - type: bind
+        source: ./src
+        target: /code/src
+    user: root
+
+    entrypoint: uvicorn src.main:app --host 0.0.0.0 --port 8080

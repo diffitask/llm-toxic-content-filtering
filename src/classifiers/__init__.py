@@ -1,22 +1,19 @@
-from langchain_core.runnables import RunnableLambda
+from langchain_core.runnables import RunnableLambda, RunnableParallel, RunnablePassthrough
 from langserve import add_routes
 
-from src.classifiers.tf_idf_baseline import get_tf_idf_baseline_classifier
-from src.schemas import ClassifierInput, ClassifierOutput
+from src.classifiers.mistral_classifier import get_mistral_classifier
+
 
 available_classifiers = {
-    'baseline': get_tf_idf_baseline_classifier(),
+    'mistral': get_mistral_classifier(),
 }
-
-def alert(input):
-    classifier_output = ClassifierOutput.parse_obj(input)
-    if classifier_output.predicted_class == "vanilla_harmful":
-        print('alert here', flush=True)
-    return input
-
 
 def configure_classifiers(app):
     for classifier_name, classifier in available_classifiers.items():
-        classifier_runnable = RunnableLambda(classifier.classify, name='classfier_fn')
-        alert_runnable = RunnableLambda(alert, name='alert_fn')
-        add_routes(app, classifier_runnable | alert_runnable, path=f"/{classifier_name}")
+        classifier_runnable = RunnableLambda(classifier.classify, name=f'classifier_{classifier_name}')
+        add_routes(
+            app, 
+            classifier_runnable, 
+            path=f"/{classifier_name}",
+            disabled_endpoints=['playground']
+        )

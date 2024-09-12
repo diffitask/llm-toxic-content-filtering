@@ -14,9 +14,9 @@ Our classifiers can be called like `RemoteRunnable` or using `requests` module
 
 from langserve import RemoteRunnable
 
-baseline = RemoteRunnable("http://localhost:8080/baseline/")
+classifier = RemoteRunnable("http://localhost:8080/classifiers/mistral/")
 
-baseline.invoke({'text': 'привет'})
+classifier.invoke('привет')
 ```
 ```
 Output: {'predicted_class': 'vanilla_harmful'}
@@ -28,11 +28,8 @@ Output: {'predicted_class': 'vanilla_harmful'}
 import requests
 
 response = requests.post(
-    "http://localhost:8080/baseline/invoke",
-    json={'input': {'text': 'привет'}}
+    "http://localhost:8080/classifiers/mistral/invoke",
+    json={'input': 'привет'}
 )
 response.json()
 ```
-
-## Playground for models
-Our API also provides playground endpoints to interact with models using simple UI - http://localhost:8080/baseline/invoke/playground
