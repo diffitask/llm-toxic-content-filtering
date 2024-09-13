@@ -1,35 +1,30 @@
 # LLM Toxic Content Filtering
 
 # Project Setup
-```
-docker compose build
-docker compose up
-```
+First you need to configure `.env` file. Rename `.public_env` to `.env` and specify your credentials (LANGCHAIN_API_KEY, HF_TOKEN).
+
+Next you need to create `artifacts` folder and download model weights.
+
+###### peft_mistral
+- Unpack `.zip` file from the [link](https://drive.google.com/drive/folders/1zIKR60AxLkSYbr3TMDC6b9nfVFje4spf?usp=sharing) and place it in `artifacts/peft_mistral`
+
+Start the application:
+- locally
+    ```
+    uvicorn src.main:app
+    ```
+- in Docker:
+    ```
+    docker compose build
+    docker compose up
+    ```
 
 ## API Usage
-Our classifiers can be called like `RemoteRunnable` or using `requests` module
+You can check how to use our API in `examples/demo_with_local_llm.ipynb` file
 
-```python
-# RemoteRunnable example
-
-from langserve import RemoteRunnable
-
-classifier = RemoteRunnable("http://localhost:8080/classifiers/mistral/")
-
-classifier.invoke('привет')
+## LangSmith
+Our API is traceable via LangSmith if you specify variables in `.env` file:
 ```
-```
-Output: {'predicted_class': 'vanilla_harmful'}
-```
-
-```python
-# requests example
-
-import requests
-
-response = requests.post(
-    "http://localhost:8080/classifiers/mistral/invoke",
-    json={'input': 'привет'}
-)
-response.json()
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_API_KEY=<YOUR_KEY>
 ```
