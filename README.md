@@ -1,6 +1,6 @@
 # LLM Toxic Content Filtering
 
-# Project description
+# Project Description
 Project goals, values, target audience, uniqueness, realization details -- see all these aspecets in [our presentation](https://docs.google.com/presentation/d/1Bbjp2RH65IX8I-KE-Y8YoMusPbc44nX22xBPZQnRlvQ/edit?usp=sharing)
 
 # Project Setup
