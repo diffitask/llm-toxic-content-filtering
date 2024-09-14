@@ -1,5 +1,8 @@
 # LLM Toxic Content Filtering
 
+# Project description
+Project goals, values, target audience, uniqueness, realization details -- see all these aspecets in [our presentation](https://docs.google.com/presentation/d/1Bbjp2RH65IX8I-KE-Y8YoMusPbc44nX22xBPZQnRlvQ/edit?usp=sharing)
+
 # Project Setup
 First you need to configure `.env` file. Rename `.public_env` to `.env` and specify your credentials (LANGCHAIN_API_KEY, HF_TOKEN).
 
