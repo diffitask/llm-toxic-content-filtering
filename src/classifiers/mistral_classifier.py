@@ -6,16 +6,18 @@ from src.classifiers.classifier_interface import ClassifierInterface
 import torch
 
 class MistralClassifier(ClassifierInterface):
-    def __init__(self, model_path):
+    def __init__(self, artifacts_folder):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu')
         print(f'USING DEVICE: {self.device}')
         # self.device = torch.device('mps')
         
         # Initialize tokenizer and model
-        self.model_path = model_path
+        self.tokenizer_path = artifacts_folder / "mistral_tokenizer"
+        self.base_model_path = artifacts_folder / "mistral_base_model"
+        self.model_path = artifacts_folder / "peft_mistral"
 
         self.tokenizer = AutoTokenizer.from_pretrained(
-            pretrained_model_name_or_path=self.model_path,
+            pretrained_model_name_or_path=self.tokenizer_path,
             local_files_only=True,
         )
         self.tokenizer.padding_side = 'right'
@@ -26,7 +28,7 @@ class MistralClassifier(ClassifierInterface):
 
         # Load base model
         self.base_model = AutoModelForCausalLM.from_pretrained(
-            pretrained_model_name_or_path=self.model_path,
+            pretrained_model_name_or_path=self.base_model_path,
             torch_dtype=torch.bfloat16,
             device_map="auto",
             local_files_only=True,
@@ -42,6 +44,8 @@ class MistralClassifier(ClassifierInterface):
         )
         self.model = self.model.to(self.device)
         self.model.eval()
+
+        print(f'THE MODEL HAS BEEN LOADED')
         
         # Set system prompt
         self.SYSTEM_PROMPT = '''
@@ -78,9 +82,5 @@ class MistralClassifier(ClassifierInterface):
         return ClassifierOutput(input=input_text, harmful=predicted_label)
     
 def get_mistral_classifier():
-    model_path = Path.cwd() / "artifacts/peft_mistral"
-    print(f'MODEL PATH: {model_path}')
-    print(f'ABSOLUTE: {Path.absolute(model_path)}')
-    if not model_path.exists():
-        raise RuntimeError('NO MODEL PATH')
-    return MistralClassifier(model_path=model_path)
+    artifacts_folder = Path.cwd() / "artifacts"
+    return MistralClassifier(artifacts_folder)
