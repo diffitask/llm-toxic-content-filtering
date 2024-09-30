@@ -9,4 +9,4 @@ class ClassifierOutput(BaseModel):
 
     """0/1 -- is the prompt/model answer harmful or not"""
     # has_jailbreak: str
-    harmful: bool
+    predicted_class: str

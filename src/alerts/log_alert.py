@@ -8,7 +8,7 @@ class LogAlert(AlertInterface):
 
         # configure logging: saving 1) initial user prompt, 2) filtering model answer
         input_text = classifier_output.input.replace('\n', '')
-        if classifier_output.harmful:
+        if classifier_output.predicted_class != '0':
             logger.warning(f"Harmful Input: '{input_text}'")
 
         # # TODO: if classifier_output.predicted_class == 0:
